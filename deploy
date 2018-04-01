@@ -1,0 +1,15 @@
+#! /usr/bin/env ruby
+
+path = "./dist"
+url = ""
+
+command = <<-EOF
+yarn build && \
+surge #{path} #{url}
+EOF
+
+puts "GRIPPIN'"
+
+system(command)
+
+puts "SHIPPIN'"
