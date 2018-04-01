@@ -1,8 +1,4 @@
-# Agency Ipsum
-
-Replace your tired old Lorem Ipsum with Agency Ipsum. Generate dummy text chock full of agency buzzwords. If it sounds legit, maybe even leave it in there!
-
-Project built with Elm and using [digital-marketing-ipsum](https://npmjs.com/package/digital-marketing-ipsum).
+# Filthy Earth
 
 ## How to run
 
