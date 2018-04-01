@@ -33,5 +33,3 @@ Built assets will be output to `dist`.
 
 ## Credits
 * Thanks [dtcristo](https://github.com/dtcristo) for [nwb-elm-app](https://github.com/dtcristo/nwb-elm-app).
-* Thanks everyone that helped expand the dictionary. You know who you are.
-* Thanks [Pexels](https://www.pexels.com) for the imagery used throughout the site.

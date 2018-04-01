@@ -1,7 +1,13 @@
 port module Port exposing (..)
 
 import Map
-import Types exposing (..)
+
+
+-- Incoming Subscriptions
+
+
+port receiveData : (() -> msg) -> Sub msg
+
 
 
 -- Outgoing Port

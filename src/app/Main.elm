@@ -25,11 +25,7 @@ init =
       , map = Map.init
       , filterOn = Nothing
       }
-    , Cmd.batch
-        [ Map.init
-            |> Map.toJsObject
-            |> Port.initializeMap
-        ]
+    , Cmd.none
     )
 
 
@@ -38,6 +34,15 @@ update msg model =
     case msg of
         FilterMap str ->
             ( { model | filterOn = Just str }, filterOn str )
+
+        ReceiveData ->
+            ( model
+            , Cmd.batch
+                [ Map.init
+                    |> Map.toJsObject
+                    |> Port.initializeMap
+                ]
+            )
 
 
 view : Model -> Html Msg
@@ -60,4 +65,4 @@ filterBar model =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.none
+    receiveData (always ReceiveData)
