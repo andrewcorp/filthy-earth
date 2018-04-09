@@ -1,10 +1,9 @@
 module Main exposing (..)
 
+import Data exposing (getData)
 import Html exposing (..)
 import Html.Attributes exposing (class, id, placeholder)
 import Html.Events exposing (..)
-import Http
-import Json.Decode exposing (field, float, int, list, map6, string)
 import Map
 import Maybe exposing (withDefault)
 import Port exposing (..)
@@ -76,24 +75,3 @@ filterBar model =
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.none
-
-
-
---HTTP
-
-
-getData : Cmd Msg
-getData =
-    Http.send ReceiveData <|
-        Http.get "/data/data.json" (list poiDecoder)
-
-
-poiDecoder : Json.Decode.Decoder Poi
-poiDecoder =
-    map6 Poi
-        (field "id" int)
-        (field "name" string)
-        (field "city" string)
-        (field "country" string)
-        (field "latitude" float)
-        (field "longitude" float)
