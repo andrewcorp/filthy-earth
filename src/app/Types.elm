@@ -1,7 +1,19 @@
 module Types exposing (..)
 
 import Http
-import Map
+
+
+type alias MapModel =
+    { latitude : Float
+    , longitude : Float
+    }
+
+
+type alias MapObject =
+    { lat : Float
+    , lng : Float
+    , locations : List Poi
+    }
 
 
 type alias Poi =
@@ -16,7 +28,7 @@ type alias Poi =
 
 type alias Model =
     { title : String
-    , map : Map.Model
+    , map : MapModel
     , filterStr : Maybe String
     , data : List Poi
     }

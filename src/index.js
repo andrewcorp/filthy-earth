@@ -7,11 +7,6 @@ const mapMarkers = [],
       infoWindows = [],
       bounds = new google.maps.LatLngBounds();
 
-const clearMarkers = () => {
-  mapMarkers.forEach(marker => marker.setMap(null));
-  mapMarkers.length = 0;
-}
-
 const createMarker = (d) => {
   const position = new google.maps.LatLng({
     lat: parseInt(d.latitude),
@@ -45,28 +40,29 @@ const createMarker = (d) => {
   window.googleMap.fitBounds(bounds);
 }
 
-const filterMarkers = (str) => {
-  clearMarkers();
-  window.data
+const updateMarkers = (locations, str = '') => {
+  // Remove all map markers
+  mapMarkers.forEach(marker => marker.setMap(null));
+  mapMarkers.length = 0;
+
+  // Then add new ones
+  locations
     .filter((d) => d.name.toLowerCase().indexOf(str.toLowerCase()) !== -1)
     .forEach((d) => createMarker(d, window.googleMap));
 }
 
 // Subscriptions
+app.ports.initializeMap.subscribe((data) => {
+    const config = {
+      center: new google.maps.LatLng({ lat: data.lat, lng: data.lng }),
+      zoom: 2,
+    },
+    mapDiv = document.getElementById('map');
 
-app.ports.initializeMap.subscribe((pos) => {
-    const mapDiv = document.getElementById('map');
-    window.googleMap = new google.maps.Map(mapDiv, { zoom: 2, center: new google.maps.LatLng(pos) });
+    window.googleMap = new google.maps.Map(mapDiv, config);
 
     // Add markers
-    window.data.forEach((d) => createMarker(d));
+    updateMarkers(data.locations);
 });
 
 app.ports.filterOn.subscribe((str) => filterMarkers(str));
-
-fetch('/data/data.json')
-  .then((response) => response.json())
-  .then((myJson) => {
-    window.data = myJson;
-    app.ports.receiveData.send(null)
-  });

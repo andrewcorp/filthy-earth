@@ -1,6 +1,6 @@
 module Main exposing (..)
 
-import Data exposing (getData)
+import Data exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (class, id, placeholder)
 import Html.Events exposing (..)
@@ -41,7 +41,7 @@ update msg model =
             ( { model | data = locations }
             , Cmd.batch
                 [ Map.init
-                    |> Map.toJsObject
+                    |> Map.toJsObject locations
                     |> Port.initializeMap
                 ]
             )
