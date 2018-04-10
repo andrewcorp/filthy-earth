@@ -10,8 +10,7 @@ import Types exposing (..)
 
 getData : Cmd Msg
 getData =
-    Http.send ReceiveData <|
-        Http.get "/data/data.json" (list poiDecoder)
+    Http.send ReceiveData (Http.get "/data/data.json" (list poiDecoder))
 
 
 poiDecoder : Json.Decode.Decoder Poi
