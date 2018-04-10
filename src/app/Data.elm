@@ -8,9 +8,13 @@ import Types exposing (..)
 --HTTP
 
 
+dataUrl : String
+dataUrl = "/data/data.json"
+
+
 getData : Cmd Msg
 getData =
-    Http.send ReceiveData (Http.get "/data/data.json" (list poiDecoder))
+    Http.send ReceiveData (Http.get dataUrl (list poiDecoder))
 
 
 poiDecoder : Json.Decode.Decoder Poi
