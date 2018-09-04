@@ -5,13 +5,14 @@ import Json.Decode exposing (field, float, int, list, map6, string)
 import Types exposing (..)
 
 
+
 --HTTP
 
 
 getData : Cmd Msg
 getData =
     Http.send ReceiveData <|
-        Http.get "/data/data.json" (list poiDecoder)
+        Http.get "data/data.json" (list poiDecoder)
 
 
 poiDecoder : Json.Decode.Decoder Poi

@@ -1,0 +1,10 @@
+// Base styles - CSS reset, body, typography etc.
+@import 'base/reset.scss';
+@import 'base/variables.scss';
+@import 'base/mixins.scss';
+@import 'base/main.scss';
+@import 'base/typography.scss';
+
+// Modules
+@import 'modules/map.scss';
+@import 'modules/filter-bar.scss';

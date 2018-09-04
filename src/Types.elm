@@ -1,4 +1,4 @@
-module Types exposing (..)
+module Types exposing (MapModel, MapObject, Model, Msg(..), Poi)
 
 import Http
 
@@ -27,10 +27,11 @@ type alias Poi =
 
 
 type alias Model =
-    { title : String
+    { heading : String
     , map : MapModel
-    , filterStr : Maybe String
+    , filterStr : String
     , data : List Poi
+    , filteredData : List Poi
     }
 
 

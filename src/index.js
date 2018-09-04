@@ -1,7 +1,12 @@
-require('./styles/application.scss');
+import './main.css';
+import { Elm } from './Main.elm';
+import registerServiceWorker from './registerServiceWorker';
 
-const Elm = require('./app/Main.elm');
-const app = Elm.Main.embed(document.querySelector('#app'));
+const app = Elm.Main.init({
+  flags: null
+});
+
+registerServiceWorker();
 
 const mapMarkers = [],
       infoWindows = [],
@@ -42,6 +47,7 @@ const createMarker = (d) => {
 
 const updateMarkers = (locations, str = '') => {
   // Remove all map markers
+  console.log(str, locations.length)
   mapMarkers.forEach(marker => marker.setMap(null));
   mapMarkers.length = 0;
 
@@ -65,4 +71,6 @@ app.ports.initializeMap.subscribe((data) => {
     updateMarkers(data.locations);
 });
 
-app.ports.filterOn.subscribe((str) => filterMarkers(str));
+app.ports.filterOn.subscribe((model) => {
+  updateMarkers(model.data, model.filterStr)
+});

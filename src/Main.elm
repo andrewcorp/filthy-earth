@@ -1,44 +1,48 @@
-module Main exposing (..)
+module Main exposing (filterBar, init, main, update, view)
 
+import Browser exposing (Document)
 import Data exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (class, id, placeholder)
 import Html.Events exposing (..)
 import Map
-import Maybe exposing (withDefault)
 import Port exposing (..)
-import Types exposing (..)
+import Types exposing (Model, Msg(..))
 
-
-main : Program Never Model Msg
+main : Program (Maybe Model) Model Msg
 main =
-    Html.program
+    Browser.document
         { init = init
         , update = update
-        , view = view
-        , subscriptions = subscriptions
+        , view = \model -> { title = "f***** E@r+h", body = [view model] }
+        , subscriptions = \_ -> Sub.none
         }
 
 
-init : ( Model, Cmd Msg )
-init =
-    ( { title = "f***** E@r+h"
+init : Maybe Model -> ( Model, Cmd Msg )
+init maybeModel =
+    ( { heading = "f***** E@r+h"
       , map = Map.init
-      , filterStr = Nothing
+      , filterStr = ""
       , data = []
+      , filteredData = []
       }
     , getData
     )
+
+
+
+-- TODO: Write list filter function for updating filtered data http://elmprogramming.com/list.html
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         FilterMap str ->
-            ( { model | filterStr = Just str }, filterOn str )
+            ( { model | filterStr = str }, filterOn model )
 
         ReceiveData (Ok locations) ->
-            ( { model | data = locations }
+            ( { model | data = locations, filteredData = locations }
             , Cmd.batch
                 [ Map.init
                     |> Map.toJsObject locations
@@ -66,12 +70,7 @@ filterBar : Model -> Html Msg
 filterBar model =
     div
         [ class "filter-bar" ]
-        [ h1 [ class "display" ] [ text model.title ]
+        [ h1 [ class "display" ] [ text model.heading ]
         , h2 [ class "subheading filter-bar__title" ] [ text "Search the globe" ]
         , input [ class "filter-bar__input", placeholder "Search", onInput FilterMap ] []
         ]
-
-
-subscriptions : Model -> Sub Msg
-subscriptions model =
-    Sub.none

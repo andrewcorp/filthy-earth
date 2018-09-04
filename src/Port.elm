@@ -1,6 +1,7 @@
-port module Port exposing (..)
+port module Port exposing (filterOn, initializeMap, receiveData)
 
 import Types exposing (..)
+
 
 
 -- Incoming Subscriptions
@@ -16,4 +17,4 @@ port receiveData : (() -> msg) -> Sub msg
 port initializeMap : MapObject -> Cmd msg
 
 
-port filterOn : String -> Cmd msg
+port filterOn : Model -> Cmd msg
