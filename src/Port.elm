@@ -17,4 +17,4 @@ port receiveData : (() -> msg) -> Sub msg
 port initializeMap : MapObject -> Cmd msg
 
 
-port filterOn : Model -> Cmd msg
+port filterOn : List Poi -> Cmd msg

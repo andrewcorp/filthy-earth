@@ -35,7 +35,6 @@ const createMarker = (d) => {
   });
 
   marker.addListener('click', () => {
-    // Close other open windows
     infoWindows.forEach((i) => i.close());
     window.googleMap.panTo(position);
     infoWindow.open(window.googleMap, marker);
@@ -45,32 +44,27 @@ const createMarker = (d) => {
   window.googleMap.fitBounds(bounds);
 }
 
-const updateMarkers = (locations, str = '') => {
-  // Remove all map markers
-  console.log(str, locations.length)
+const updateMarkers = (locations) => {
   mapMarkers.forEach(marker => marker.setMap(null));
   mapMarkers.length = 0;
-
-  // Then add new ones
-  locations
-    .filter((d) => d.name.toLowerCase().indexOf(str.toLowerCase()) !== -1)
-    .forEach((d) => createMarker(d, window.googleMap));
+  locations.forEach((d) => createMarker(d, window.googleMap));
 }
 
 // Subscriptions
 app.ports.initializeMap.subscribe((data) => {
-    const config = {
-      center: new google.maps.LatLng({ lat: data.lat, lng: data.lng }),
-      zoom: 2,
-    },
-    mapDiv = document.getElementById('map');
+  const config = {
+    center: new google.maps.LatLng({ lat: data.lat, lng: data.lng }),
+    zoom: 2,
+  },
+  mapDiv = document.getElementById('map');
 
-    window.googleMap = new google.maps.Map(mapDiv, config);
+  window.googleMap = new google.maps.Map(mapDiv, config);
 
-    // Add markers
-    updateMarkers(data.locations);
+  // Add markers
+  updateMarkers(data.locations);
 });
 
-app.ports.filterOn.subscribe((model) => {
-  updateMarkers(model.data, model.filterStr)
+app.ports.filterOn.subscribe((data) => {
+  console.log(data)
+  updateMarkers(data)
 });

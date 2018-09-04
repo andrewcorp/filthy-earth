@@ -29,9 +29,7 @@ type alias Poi =
 type alias Model =
     { heading : String
     , map : MapModel
-    , filterStr : String
     , data : List Poi
-    , filteredData : List Poi
     }
 
 

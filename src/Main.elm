@@ -7,7 +7,8 @@ import Html.Attributes exposing (class, id, placeholder)
 import Html.Events exposing (..)
 import Map
 import Port exposing (..)
-import Types exposing (Model, Msg(..))
+import Types exposing (Model, Msg(..), Poi)
+import String exposing (startsWith, toLower)
 
 main : Program (Maybe Model) Model Msg
 main =
@@ -23,26 +24,29 @@ init : Maybe Model -> ( Model, Cmd Msg )
 init maybeModel =
     ( { heading = "f***** E@r+h"
       , map = Map.init
-      , filterStr = ""
       , data = []
-      , filteredData = []
       }
     , getData
     )
 
 
 
--- TODO: Write list filter function for updating filtered data http://elmprogramming.com/list.html
+compareString : String -> String -> Bool
+compareString search toSearch = 
+    startsWith (toLower search) (toLower toSearch)
 
+filterList: String -> List Poi -> List Poi
+filterList str list = 
+    List.filter (\r -> compareString str r.name || compareString str r.city) list
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         FilterMap str ->
-            ( { model | filterStr = str }, filterOn model )
+            ( model, filterOn (filterList str model.data) )
 
         ReceiveData (Ok locations) ->
-            ( { model | data = locations, filteredData = locations }
+            ( { model | data = locations }
             , Cmd.batch
                 [ Map.init
                     |> Map.toJsObject locations
