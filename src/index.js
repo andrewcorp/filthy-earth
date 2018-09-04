@@ -1,5 +1,6 @@
 import './main.css';
-import { Elm } from './Main.elm';
+import styles from './map.js'
+import { Elm } from './app/Main.elm';
 import registerServiceWorker from './registerServiceWorker';
 
 const app = Elm.Main.init({
@@ -55,16 +56,11 @@ app.ports.initializeMap.subscribe((data) => {
   const config = {
     center: new google.maps.LatLng({ lat: data.lat, lng: data.lng }),
     zoom: 2,
+    styles
   },
   mapDiv = document.getElementById('map');
-
   window.googleMap = new google.maps.Map(mapDiv, config);
-
-  // Add markers
   updateMarkers(data.locations);
 });
 
-app.ports.filterOn.subscribe((data) => {
-  console.log(data)
-  updateMarkers(data)
-});
+app.ports.filterOn.subscribe((data) => updateMarkers(data));

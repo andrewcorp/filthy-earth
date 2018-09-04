@@ -29,8 +29,6 @@ init maybeModel =
     , getData
     )
 
-
-
 compareString : String -> String -> Bool
 compareString search toSearch = 
     startsWith (toLower search) (toLower toSearch)
@@ -61,14 +59,12 @@ update msg model =
             in
             ( model, Cmd.none )
 
-
 view : Model -> Html Msg
 view model =
     div [ class "wrapper" ]
         [ filterBar model
         , div [ class "map", id "map" ] []
         ]
-
 
 filterBar : Model -> Html Msg
 filterBar model =
